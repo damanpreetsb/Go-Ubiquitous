@@ -127,18 +127,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Resources resources = MyWatchFace.this.getResources();
 
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(resources.getColor(R.color.background));
+            mBackgroundPaint.setColor(resources.getColor(R.color.primary));
 
             mTextTimePaint = new Paint();
             mTextTimePaint = createTextTimePaint(resources.getColor(R.color.digital_text));
 
             mTextDatePaint = new Paint();
-            mTextDatePaint = createTextDatePaint(resources.getColor(R.color.digital_text));
+            mTextDatePaint = createTextDatePaint();
 
             mYOffsetTime = resources.getDimension(R.dimen.digital_y_offset_time);
             mYOffsetDate = resources.getDimension(R.dimen.digital_y_offset_date);
 
-            mXOffsetTime = mTextTimePaint.measureText("12:00") / 2;;
+            mXOffsetTime = mTextTimePaint.measureText("12:00") / 2;
             mXOffsetDate = mTextDatePaint.measureText("WED, JUN 13, 2016") / 2;
 
             mCalendar = Calendar.getInstance();
@@ -155,15 +155,15 @@ public class MyWatchFace extends CanvasWatchFaceService {
             paint.setColor(textColor);
             paint.setTypeface(NORMAL_TYPEFACE);
             paint.setAntiAlias(true);
-            paint.setTextSize(getResources().getDimension(R.dimen.digital_text_size));
+            paint.setTextSize(getResources().getDimension(R.dimen.digital_time_text_size));
             return paint;
         }
 
-        private Paint createTextDatePaint(int textColor) {
+        private Paint createTextDatePaint() {
             Paint paint = new Paint();
-            paint.setColor(textColor);
             paint.setTypeface(NORMAL_TYPEFACE);
             paint.setAntiAlias(true);
+            paint.setTextSize(getResources().getDimension(R.dimen.digital_date_text_size));
             return paint;
         }
 
@@ -260,6 +260,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             int dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
             int year = mCalendar.get(Calendar.YEAR);
             String dateText = String.format("%s, %s %d, %d", dayName.toUpperCase(), monthName.toUpperCase(), dayOfMonth, year);
+            if (isInAmbientMode()) {
+                mTextDatePaint.setColor(getResources().getColor(R.color.digital_text));
+            } else {
+                mTextDatePaint.setColor(getResources().getColor(R.color.primary_light));
+            }
             canvas.drawText(dateText, bounds.centerX() - mXOffsetDate, mYOffsetDate, mTextDatePaint);
         }
 

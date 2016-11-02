@@ -34,4 +34,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.google.android.apps.muzei:muzei-api:2.0'
     compile 'com.google.android.gms:play-services-gcm:9.8.0'
+    compile 'com.google.android.gms:play-services-wearable:9.8.0'
 }
